@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+
+//angel gei
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: .fromSeed(
+          seedColor: const Color.fromARGB(255, 13, 32, 72),
+        ),
+      ),
+      home: Calculadora(),
+    );
+  }
+}
+
+class Calculadora extends StatefulWidget {
+  const Calculadora({super.key});
+
+  @override
+  State<Calculadora> createState() => _CalculadoraState();
+}
+
+class _CalculadoraState extends State<Calculadora> {
+  String display = '';
+  double? operando; // poder poner nulos (valores)
+  String? operacion; //  operaciones
+
+  void onButtonPressed(String value) {
+    //setState(() =>  {});
+    setState(() {
+      if (value == '1' ||
+          value == '2' ||
+          value == '3' ||
+          value == '4' ||
+          value == '5' ||
+          value == '6' ||
+          value == '7' ||
+          value == '8' ||
+          value == '9' ||
+          value == '0') {
+        display += value;
+      } else if (value == 'C') {
+        display = '';
+      } else if (value == '+') {
+        operando = double.parse(display);
+        operacion = value;
+        display = '';
+      } else if (value == '=') {
+        //display = (double.parse(display ? '' : '0') + operando ? null : 0)
+        //.toString();
+      }
+    });
+  }
+
+  Widget boton(String text) {
+    return ElevatedButton(
+      onPressed: () => onButtonPressed(text),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 187, 209, 220),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text("Calculadora")),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.bottomRight,
+              child: Text(
+                display.isEmpty ? "0" : display,
+                style: TextStyle(fontSize: 60, color: Colors.black),
+              ),
+            ),
+          ),
+
+          Expanded(
+            flex: 6,
+            child: GridView.count(
+              padding: EdgeInsets.all(5),
+              crossAxisCount: 4,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              children: [
+                boton("7"),
+                boton("8"),
+                boton("9"),
+                boton("+"),
+                boton("4"),
+                boton("5"),
+                boton("6"),
+                boton("-"),
+                boton("1"),
+                boton("2"),
+                boton("3"),
+                boton("*"),
+                boton("0"),
+                boton("C"),
+                boton("="),
+                boton("/"),
+              ],
+            ),
+          ),
+        ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.play_circle_rounded),
+      ),
+    );
+  }
+}
